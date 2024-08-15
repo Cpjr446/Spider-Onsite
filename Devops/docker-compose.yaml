@@ -1,0 +1,77 @@
+
+services:
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - user-service
+      - product-service
+      - cart-service
+    networks:
+      - app-network
+
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: Cpvbox2005$$
+      MYSQL_DATABASE: myapp
+      MYSQL_USER: chandraprakash
+      MYSQL_PASSWORD: cpsql2005$$
+    volumes:
+      - mysql-data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - app-network
+
+  user-service:
+    build:
+      context: ./user-service
+      dockerfile: Dockerfile
+    environment:
+      - DB_HOST=mysql
+      - DB_USER=chandraprakash
+      - DB_PASSWORD=cpsql2005$$
+      - DB_NAME=myapp
+    depends_on:
+      - mysql
+    networks:
+      - app-network
+
+  product-service:
+    build:
+      context: ./product-service
+      dockerfile: Dockerfile
+    environment:
+      - DB_HOST=mysql
+      - DB_USER=chandraprakash
+      - DB_PASSWORD=cpsql2005$$
+      - DB_NAME=myapp
+    depends_on:
+      - mysql
+    networks:
+      - app-network
+
+  cart-service:
+    build:
+      context: ./cart-service
+      dockerfile: Dockerfile
+    environment:
+      - DB_HOST=localhost
+      - DB_USER=chandraprakash
+      - DB_PASSWORD=cpsql2005$$
+      - DB_NAME=myapp
+    depends_on:
+      - mysql
+    networks:
+      - app-network
+
+volumes:
+  mysql-data:
+
+networks:
+  app-network:
+    driver: bridge
