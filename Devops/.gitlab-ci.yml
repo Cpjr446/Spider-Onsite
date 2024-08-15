@@ -1,0 +1,39 @@
+stages:
+  - build
+  - test
+  - deploy
+
+variables:
+  DOCKER_DRIVER: overlay2
+  DOCKER_TLS_CERTDIR: ""
+
+build:
+  stage: build
+  image: docker:latest
+  services:
+    - docker:dind
+  script:
+    - docker-compose build
+
+test:
+  stage: test
+  image: docker:latest
+  services:
+    - docker:dind
+  script:
+    - docker-compose up -d
+    - docker-compose exec -T user-service npm test
+    - docker-compose exec -T product-service npm test
+    - docker-compose exec -T cart-service npm test
+    - docker-compose down
+
+deploy:
+  stage: deploy
+  image: docker:latest
+  services:
+    - docker:dind
+  script:
+    - docker-compose up -d
+  only:
+    - master
+  environment: staging
