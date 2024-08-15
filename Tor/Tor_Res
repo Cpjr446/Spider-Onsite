@@ -1,0 +1,74 @@
+TOR NOTES
+
+Tor is a free overlay network for enabling anonymous communication. Built on free and open-source software and more than seven thousand volunteer-operated relays worldwide, users can have their Internet traffic routed via a random path through the network.
+ Tor directs internet traffic through a network of thousands of relays, many of which are set up and maintained by volunteers.
+Messages are encapsulated in layers of encryption, comparable to the layers of an onion. Inside the Tor network are .onion sites, or ‘hidden services’.
+The easiest way to access the
+ Tor network is through the Tor Browser. The Tor Browser is automatically connected to the Tor network and will place all your requests through it, while ensuring anonymity.
+In addition, the browser comes with an added functionality that improves your security and privacy by disabling JavaScript, automatic image, video loading and more.
+The Tor Browser bundle is developed by the Tor Project, a non-profit organisation that carries out research as well as maintaining the software used by the Tor anonymity network.
+
+
+
+
+Security Measures Implemented by the Tor Network
+1. Encryption: Tor uses multi-layered encryption to protect user data. When a user sends data through the Tor network, it is encrypted multiple times before being routed through a series of volunteer-operated servers called nodes or relays. Each relay decrypts a layer of encryption to reveal the next relay in the path, ensuring that no single relay knows both the source and destination of the data1.
+2. Anonymity: Tor provides anonymity by routing internet traffic through a network of thousands of relays. This process, known as onion routing, obscures the user’s IP address and location. Each relay only knows the IP address of the previous and next relay, making it difficult to trace the data back to its original source2.
+3. Perfect Forward Secrecy (PFS): Tor implements perfect forward secrecy to ensure that even if a session key is compromised, it cannot be used to decrypt past sessions. PFS uses ephemeral keys that are generated for each session and discarded after use, preventing attackers from decrypting historical data even if they obtain the private key of a server3.
+
+
+Importance of Using HTTPS with Tor
+While Tor provides anonymity and encryption within its network, it does not encrypt the data between the exit node and the final destination. This means that if the destination website does not use HTTPS, the data can be intercepted and read by anyone monitoring the exit node. Using HTTPS ensures that the data remains encrypted end-to-end, providing an additional layer of security and protecting against man-in-the-middle attacks4.
+Tor’s Security Best Practices and Recommendations
+Use the Tor Browser: The Tor Browser is specifically designed to work with the Tor network and includes built-in security features such as disabling JavaScript, blocking tracking cookies, and preventing browser fingerprinting.
+Avoid Plugins and Add-ons: Plugins and add-ons can compromise your anonymity and security. Stick to the default settings of the Tor Browser.
+Use HTTPS Everywhere: The Tor Browser includes the HTTPS Everywhere extension, which automatically uses HTTPS connections when available. This helps ensure that your data is encrypted end-to-end5.
+Be Cautious with Downloads: Downloading files through Tor can be risky, as they may contain malware or other malicious content. Avoid downloading files unless absolutely necessary, and always scan them with a reliable antivirus program5.
+Regularly Update the Tor Browser: Keeping the Tor Browser up to date ensures that you have the latest security patches and improvements. Regular updates help protect against newly discovered vulnerabilities5.
+By following these best practices and understanding the security measures implemented by the Tor network, you can enhance your online privacy and security while using Tor.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+TOR CLI COMMANDS
+Starting, Stopping, and Monitoring the Tor Process
+1. Starting the Tor Process: To start the Tor process, use the tor command. This will start the Tor service and connect to the Tor network.
+tor
+
+2. Stopping the Tor Process: To stop the Tor process, the kill command is used with the process ID (PID) of the Tor process. First, find the PID:
+ps aux | grep tor
+
+Then, stop the process using the PID:
+sudo kill <PID>
+
+Alternatively, while using a system with systemd, the Tor service can be stopped with:
+sudo systemctl stop tor
+
+3. Monitoring the Tor Process: To monitor the Tor process, you can use the tail command to view the Tor log file:
+tail -f /var/log/tor/log
+
+Routing Specific Applications Through the Tor Network with torify
+The torify command is used to route specific applications through the Tor network. Here are some examples:
+1. Using torify with curl: To make an HTTP request through Tor using curl, use:
+torify curl http://example.com
+
+2. Using torify with ssh: To connect to an SSH server through Tor, use:
+torify ssh user@hostname
+
+3. Using torify with wget: To download a file through Tor using wget, use:
+torify wget http://example.com/file.zip
+
+These commands will route the specified application’s traffic through the Tor network, providing the benefits of Tor’s anonymity and encryption.
+Feel free to experiment with these commands and let me know if you have any questions or need further assistance!
+
