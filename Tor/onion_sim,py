@@ -1,0 +1,39 @@
+import random
+
+class Node:
+    def __init__(self, name):
+        self.name = name
+        self.key = random.randint(1, 100)  # Simple "encryption" key
+
+    def encrypt(self, message):
+        return ''.join([chr(ord(c) + self.key) for c in message])
+
+    def decrypt(self, message):
+        return ''.join([chr(ord(c) - self.key) for c in message])
+
+def create_onion(message, nodes):
+    onion = message
+    for node in reversed(nodes):
+        onion = node.encrypt(onion)
+    return onion
+
+def route_onion(onion, nodes):
+    print("Starting onion routing process...")
+    for i, node in enumerate(nodes):
+        print(f"\nAt Node {node.name}:")
+        print(f"Encrypted message: {onion}")
+        onion = node.decrypt(onion)
+        print(f"After decryption: {onion}")
+    print(f"\nFinal decrypted message: {onion}")
+
+# Create nodes
+nodes = [Node("A"), Node("B"), Node("C")]
+
+# Original message
+original_message = "Hello, onion routing!"
+
+# Create the onion
+onion = create_onion(original_message, nodes)
+
+# Route the onion
+route_onion(onion, nodes)
